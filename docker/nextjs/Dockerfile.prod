@@ -1,0 +1,14 @@
+FROM node:gallium AS builder
+
+RUN npx create-next-app@latest \
+    next \
+    --ts --tailwind --use-yarn --eslint --app --src-dir --import-alias @\
+    && cd next
+
+WORKDIR /next
+
+FROM node:gallium-alpine
+WORKDIR /next
+COPY --from=builder /next .
+RUN chown -R www-data:www-data /next
+EXPOSE 3000

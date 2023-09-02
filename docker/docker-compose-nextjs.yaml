@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  next:
+    build:
+      context: ./nextjs
+      dockerfile: Dockerfile.prod
+    image: julioamoreno/nextjs
+    container_name: nextjs
+    networks:
+      - nextnetwork
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.prod
+    image: julioamoreno/nginx-julio-armando
+    container_name: nginx
+    networks:
+      - nextnetwork
+    ports:
+      - 8080:80
+
+networks:
+  nextnetwork:
+    driver: bridge
